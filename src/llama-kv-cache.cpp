@@ -86,8 +86,10 @@ bool llama_kv_cache_unified::init(
             buft = ggml_backend_cpu_buffer_type();
         }
 
+	/*
         LLAMA_LOG_DEBUG("%s: layer %3d: n_embd_k_gqa = %d, n_embd_v_gqa = %d, dev = %s\n", __func__,
                 i, n_embd_k_gqa, n_embd_v_gqa, dev_name);
+	*/
 
         ggml_context * ctx = ctx_for_buft(buft);
         if (!ctx) {
