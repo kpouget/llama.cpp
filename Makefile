@@ -716,6 +716,11 @@ ggml/src/ggml-cuda/ggml-cuda.o: \
 	$(NVCC_COMPILE)
 endif # GGML_CUDA
 
+ifdef GGML_REMOTING_FRONTEND
+	MK_CPPFLAGS  += -DGGML_USE_REMOTINGFRONTEND
+	OBJ_GGML_EXT += ggml/src/ggml-remotingfrontend/ggml-remoting-frontend.o
+endif
+
 ifdef GGML_VULKAN
 	MK_CPPFLAGS  += -DGGML_USE_VULKAN
 	MK_LDFLAGS   += $(shell pkg-config --libs vulkan)
@@ -754,6 +759,9 @@ _ggml_vk_shader_deps = $(echo $(_ggml_vk_input_dir)/*.comp)
 
 ggml/src/ggml-vulkan.o: ggml/src/ggml-vulkan/ggml-vulkan.cpp ggml/include/ggml-vulkan.h $(_ggml_vk_header) $(_ggml_vk_source)
 	$(CXX) $(CXXFLAGS) $(shell pkg-config --cflags vulkan) -c $< -o $@
+
+ggml/src/ggml-remotingfrontend/frontend.o: ggml/src/ggml-remotingfrontend/frontend.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(_ggml_vk_header): $(_ggml_vk_source)
 
